@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breakfast Taco Checkout</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        .container { max-width: 400px; margin: auto; }
+        .product { border: 1px solid #ccc; padding: 20px; border-radius: 10px; position: relative; }
+        button { background-color: #ff6600; color: white; padding: 10px; border: none; cursor: pointer; border-radius: 5px; }
+        button:hover { background-color: #e65c00; }
+        .total-price-container { position: absolute; right: 20px; bottom: 20px; font-size: 1.2em; font-weight: bold; }
+        .collapsible { background-color: #000000; padding: 10px; cursor: pointer; border: none; width: 100%; text-align: left; margin-top: 20px; margin-bottom: 20px; }
+        .content { display: none; padding: 10px; border-top: 1px solid #ccc; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Breakfast Taco</h1>
+        <div class="product">
+            <img src="https://postimg.cc/v4Y5SkG5" alt="Breakfast Taco" width="100%">
+            <p><strong>Description:</strong> A delicious breakfast taco with customizable ingredients.</p>
+            
+            <h3>Choose Any Two (Only $3.29!)</h3>
+            <label><input type="checkbox" name="chooseTwo" value="Egg" onclick="limitSelection(this, 'chooseTwo', 2)"> Egg</label><br>
+            <label><input type="checkbox" name="chooseTwo" value="Potato" onclick="limitSelection(this, 'chooseTwo', 2)"> Potato</label><br>
+            <label><input type="checkbox" name="chooseTwo" value="Refried Pinto Beans" onclick="limitSelection(this, 'chooseTwo', 2)"> Refried Pinto Beans</label><br>
+            <label><input type="checkbox" name="chooseTwo" value="Refried Black Beans" onclick="limitSelection(this, 'chooseTwo', 2)"> Refried Black Beans</label><br>
+            <label><input type="checkbox" name="chooseTwo" value="Jack Cheese" onclick="limitSelection(this, 'chooseTwo', 2)"> Jack Cheese</label><br>
+            
+            <button class="collapsible" onclick="toggleContent()">Want to add more?</button>
+            <div class="content" id="extra-options">
+                <h3>Veggies & More ($0.49 each)</h3>
+                <label><input type="checkbox" name="veggies" value="0.49" onclick="updateTotal()"> Onion</label><br>
+                <label><input type="checkbox" name="veggies" value="0.49" onclick="updateTotal()"> Jalapeno</label><br>
+                <label><input type="checkbox" name="veggies" value="0.49" onclick="updateTotal()"> Spinach</label><br>
+                <label><input type="checkbox" name="veggies" value="0.49" onclick="updateTotal()"> Mushroom</label><br>
+                <label><input type="checkbox" name="veggies" value="0.49" onclick="updateTotal()"> Pico De Gallo</label><br>
+                <label><input type="checkbox" name="veggies" value="0.49" onclick="updateTotal()"> Cheese</label><br>
+                
+                <h3>Add Protein ($0.79 each)</h3>
+                <label><input type="checkbox" name="protein" value="0.79" onclick="updateTotal()"> Bacon</label><br>
+                <label><input type="checkbox" name="protein" value="0.79" onclick="updateTotal()"> Chorizo</label><br>
+                <label><input type="checkbox" name="protein" value="0.79" onclick="updateTotal()"> Sausage</label><br>
+            </div>
+            
+            <button onclick="checkout()">Add to Cart</button>
+            <p class="total-price-container">Total: $<span id="total-price">3.29</span></p>
+        </div>
+    </div>
+
+    <script>
+        function updateTotal() {
+            let basePrice = 3.29;
+            let totalPrice = basePrice;
+            document.querySelectorAll('input[type=checkbox]:checked').forEach(checkbox => {
+                totalPrice += parseFloat(checkbox.value) || 0;
+            });
+            document.getElementById('total-price').innerText = totalPrice.toFixed(2);
+        }
+        
+        function limitSelection(checkbox, groupName, limit) {
+            let checkboxes = document.getElementsByName(groupName);
+            let checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+            if (checkedCount > limit) {
+                checkbox.checked = false;
+                alert(`You can only select up to ${limit} items in this category.`);
+            }
+        }
+        
+        function toggleContent() {
+            let content = document.getElementById('extra-options');
+            content.style.display = content.style.display === 'block' ? 'none' : 'block';
+        }
+        
+        function checkout() {
+            window.location.href = "survey.html";
+        }
+    </script>
+</body>
+</html>
